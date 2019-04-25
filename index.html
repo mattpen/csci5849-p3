@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Repeat After Me!</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  </head>
+  <body>
+    <div id="header" role="banner">
+      <h1>Repeat After Me!</h1>
+    </div>
+
+    <div id="navigation" role="navigation" aria-controls="tab-content">
+      <div class="nav-button"><button id="play-nav" accesskey="p">Play</button></div>
+      <div class="nav-button"><button id="options-nav" accesskey="o">Options</button></div>
+      <div class="nav-button"><button id="help-nav" accesskey="h">Help</button></div>
+      <div class="nav-button"><button id="about-nav" accesskey="i">About</button></div>
+    </div>
+
+    <div id="main" role="main" aria-live="polite">
+      <div id="play" class="content">
+        
+        <div id="display"></div>
+
+        <div id="action-buttons">
+          <button id="button0">0</button>
+          <button id="button1">1</button>
+          <button id="button2">2</button>
+          <button id="button3">3</button>  
+        </div>
+
+        <button id="start">Start!</button>
+      </div>
+      
+      <div id="options" class="content">
+        OPTIONS
+      </div>
+
+      <div id="help" class="content">
+        HELP ME!
+      </div>
+
+      <div id="about" class="content">
+        <h2>Attributions:</h2>
+        <ul>
+          <li><span>This game uses these sounds from freesound:</span>
+            <ul>
+              <li>Computer Error by akelley6 ( <a href="https://freesound.org/people/akelley6/">https://freesound.org/people/akelley6/</a> )</li>
+              <li>Game Over Arcade by myfox14 ( <a href="https://freesound.org/people/myfox14/">https://freesound.org/people/myfox14/</a> )</li>
+              <li>8-Bit Arcade Video Game Start Sound Effect, Gun Reload and Jump !! by FartBiscuit1700 ( <a href="https://freesound.org/people/FartBiscuit1700/">https://freesound.org/people/FartBiscuit1700/</a> )</li>
+            </ul>
+          </li>
+          <li><span>Code Libraries:</span>
+            <ul>
+              <li>jQuery: <a href="https://fontawesome.com/">https://jquery.com/</a></li>
+              <li>Tone.js: <a href="https://fontawesome.com/">https://tonejs.github.io/</a></li>
+              <li>FontAwesome: <a href="https://fontawesome.com/">https://fontawesome.com/</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.0.1/Tone.min.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
+  </body>
+</html>

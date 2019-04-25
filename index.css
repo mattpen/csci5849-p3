@@ -1,0 +1,10 @@
+body {
+
+}
+
+/* tabs hidden by default */
+#options,
+#help,
+#about {
+  display: none;
+}
