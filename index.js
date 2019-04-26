@@ -1,5 +1,22 @@
 // Copyright 2019, Matt Pennington
 
+
+const synth = new Tone.Synth({
+  oscillator  : {
+    type  : 'triangle'
+  },
+  envelope  :{
+    attack: 0.01,
+    decay: 0.1,
+    sustain: 0.5,
+    release: 1,
+    attackCurve: 'linear',
+    decayCurve: 'exponential',
+    releaseCurve: 'exponential'
+  }
+}).toMaster()
+
+
 const SOUND_TYPE = 'SOUND';
 const COLOR_TYPE = 'COLOR';
 const SHAPE_TYPE = 'SHAPE';
@@ -32,9 +49,9 @@ const itemMap = {
 }
 
 let level = 1;
-let itemType = COLOR_TYPE;
+let itemType = SOUND_TYPE;
 let speed = 1;
-let delay = 1500;
+let delay = 1000;
 let lastPress = 0;
 
 
@@ -49,14 +66,18 @@ const addItemToSequence = item => {
   const index = Math.floor( Math.random() * 4 );
   sequence.push( itemMap[ itemType ][ index ] );
   
-  if ( sequence.length % 3 === 0 ) {
-    delay = Math.floor( delay * 0.9 );
-  }
+  delay = Math.floor( delay * 0.9 );
 };
 
 const playNext = ( subSequence, resolve ) => {
   if ( subSequence.length > 0 ) {
-    $( '#display' ).text( `${sequence.length - subSequence.length + 1}. ${subSequence.shift()}` );
+    if ( itemType === SOUND_TYPE ) {
+      synth.triggerAttackRelease( subSequence.shift(), delay * .9 / 1000 );
+    }
+    else if ( itemType === COLOR_TYPE ) {
+      $( '#display' ).text( `${sequence.length - subSequence.length + 1}. ${subSequence.shift()}` );
+    }
+    
     setTimeout( () => playNext( subSequence, resolve ), delay );
   }
   else {
@@ -73,6 +94,21 @@ const playItems = () => {
 
 const wait = () => {
   return new Promise( ( resolve, reject ) => setTimeout( () => resolve(), 2000 ) );
+}
+
+const previewSounds = () => {
+  return new Promise( ( resolve, reject ) => {
+    let c = 0;
+    setInterval( () => {
+      if ( c < 4 ) {
+        synth.triggerAttackRelease( SOUNDS[ c ], .3 );
+        c++;
+      }
+      else {
+        resolve();
+      }
+    }, 350);
+  } );
 }
 
 const listenForItems = () => {
@@ -121,6 +157,7 @@ const startGame = async () => {
     
     $( '#display' ).text( 'Get Ready!' );
     new Audio( './audio/start.wav' ).play();
+
     await wait();
     isPlaying = true;
     sequence = [];
@@ -143,6 +180,10 @@ const startGame = async () => {
       $( `#button${action}` ).text( item );
     } );
 
+    if ( itemType === SOUND_TYPE ) {
+      await previewSounds();
+    }
+
     playRound();
   }
 };
@@ -164,7 +205,12 @@ ACTIONS.forEach( action => {
     if ( isListening ) {
       lastPress = Date.now();
       playerSequence.push( action );
-      $( '#display' ).text( $( `#button${action}` ).text() );
+      if ( itemType === SOUND_TYPE ) {
+        synth.triggerAttackRelease( itemMap[ SOUND_TYPE ][ action ], .1 );
+      }
+      else if ( itemType === COLOR_TYPE ) {
+        $( '#display' ).text( $( `#button${action}` ).text() );
+      }
     }
     else {
       new Audio( './audio/error.wav' ).play();
@@ -187,7 +233,3 @@ document.addEventListener("keydown", event => {
     $( '#button3' ).click()
   }
 });
-
-$( document ).ready( () => {
-  
-} );
