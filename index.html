@@ -20,7 +20,7 @@
     <div id="main" role="main" aria-live="polite">
       <div id="play" class="content">
         
-        <div id="display" role="log" aria-live="assertive"></div>
+        <div id="display" role="alert" aria-live="assertive"></div>
 
         <div id="action-buttons">
           <button id="button0">0</button>
@@ -33,16 +33,56 @@
       </div>
       
       <div id="options" class="content">
-        type
-        speed
-        level
-        [chord]
+        <label id="type-label">Game Type</label>
+        <select id="type-select" aria-labelledby="type-label">
+          <option>Tones</option>
+          <option>Colors</option>
+          <option>Shapes</option>
+        </select>
 
+        <label id="speed-label">Speed</label>
+        <select id="speed-select" aria-labelledby="speed-label">
+          <option>Slowest</option>
+          <option>Slow</option>
+          <option>Fast</option>
+          <option>Fastest</option>
+        </select>
+
+        <label id="level-label">Level (Maximum concurrent items)</label>
+        <select id="level-select" aria-labelledby="level-label">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+        </select>
+        
+        <div id="chord-select-container">
+          <label id="chord-label">Chord</label>
+          <select id="chord-select" aria-labelledby="chord-label">
+            <option>Major Triad</option>
+            <option>Minor Triad</option>
+            <option>Dominant 7</option>
+            <option>Diminished 7</option>
+          </select>
+        </div>
+
+        <div id="color-select-container">
+          <label id="color-label">Color Palette</label>
+          <select id="color-select" aria-labelledby="color-label">
+            <option>RGBI</option>
+            <option>something</option>
+            <option>something</option>
+            <option>something</option>
+          </select>
+        </div>
       </div>
 
       <div id="help" class="content">
         <h2>Instructions</h2>
-        <p>The premise of this game is to repeat the sequence presented by the computer.  The sequence starts with just one item and increases in both length and speed incrementally.  The sequence must be repeated at least as fast as the computer presents it.  The sequence can be repeated using the buttons in the play area or by using the <span class="key">a</span>, <span class="key">s</span>, <span class="key">d</span>, and <span class="key">f</span> keys.  I playing using sounds as the sequence item, the lowest tone is triggered by <span class="key">a</span>, followed by <span class="key">s</span> and <span class="key">d</span> and then <span class="key">f</span> triggers the highest tone.</p>
+        <p>The premise of this game is to repeat the sequence presented by the computer.  The sequence starts with just one item and increases in both length and speed incrementally.  The sequence must be repeated at least as fast as the computer presents it.  The sequence can be repeated using the buttons in the play area or by using the <span class="key">a</span>, <span class="key">s</span>, <span class="key">d</span>, and <span class="key">f</span> keys.</p>
+
+        <h3>Special Instructions for playing with Tones</h3>
+        <p>If playing using tones as the sequence item, the lowest tone is triggered by <span class="key">a</span>, followed by <span class="key">s</span> and <span class="key">d</span> and then <span class="key">f</span> triggers the highest tone. At the start of the game, all 4 tones are played in sequence from lowest to highest.  This version of the game is best for people who have some degree of musical ear training or who wish to learn how to recognize melodies by ear.</p>
       </div>
 
       <div id="about" class="content">

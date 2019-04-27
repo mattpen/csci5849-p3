@@ -1,6 +1,6 @@
 // Copyright 2019, Matt Pennington
 
-
+// Synthesizer for all musical tones
 const synth = new Tone.Synth({
   oscillator  : {
     type  : 'triangle'
@@ -17,6 +17,7 @@ const synth = new Tone.Synth({
 }).toMaster()
 
 
+// Constants
 const SOUND_TYPE = 'SOUND';
 const COLOR_TYPE = 'COLOR';
 const SHAPE_TYPE = 'SHAPE';
@@ -48,37 +49,41 @@ const itemMap = {
   SHAPE: SHAPES
 }
 
-let level = 1;
-let itemType = SOUND_TYPE;
-let speed = 1;
-let delay = 1000;
-let lastPress = 0;
+// Game options
+const options = {
+  level: 1,
+  itemType: COLOR_TYPE,
+  delay: 1000,
+  lastPress: 0
+}
 
-
-let sequence = [];
-let playerSequence = [];
-let isPlaying = false;
-let isListening = false;
-let highScore = 0;
+// Game state
+const state = {
+  sequence: [],
+  playerSequence: [],
+  isPlaying: false,
+  isListening: false,
+  highScore: 0
+}
 
 
 const addItemToSequence = item => {
   const index = Math.floor( Math.random() * 4 );
-  sequence.push( itemMap[ itemType ][ index ] );
+  state.sequence.push( itemMap[ options.itemType ][ index ] );
   
-  delay = Math.floor( delay * 0.9 );
+  options.delay = Math.floor( options.delay * 0.9 );
 };
 
 const playNext = ( subSequence, resolve ) => {
   if ( subSequence.length > 0 ) {
-    if ( itemType === SOUND_TYPE ) {
-      synth.triggerAttackRelease( subSequence.shift(), delay * .9 / 1000 );
+    if ( options.itemType === SOUND_TYPE ) {
+      synth.triggerAttackRelease( subSequence.shift(), options.delay * .9 / 1000 );
     }
-    else if ( itemType === COLOR_TYPE ) {
-      $( '#display' ).text( `${sequence.length - subSequence.length + 1}. ${subSequence.shift()}` );
+    else if ( options.itemType === COLOR_TYPE ) {
+      $( '#display' ).text( `${state.sequence.length - subSequence.length + 1}. ${subSequence.shift()}` );
     }
     
-    setTimeout( () => playNext( subSequence, resolve ), delay );
+    setTimeout( () => playNext( subSequence, resolve ), options.delay );
   }
   else {
     $( '#display' ).text( 'Your Turn!' );
@@ -88,10 +93,11 @@ const playNext = ( subSequence, resolve ) => {
 
 const playItems = () => {
   return new Promise( ( resolve, reject ) => {
-    playNext( sequence.slice(), resolve );
+    playNext( state.sequence.slice(), resolve );
   } );
 }; 
 
+// async/await - do nothing for 2 seconds
 const wait = () => {
   return new Promise( ( resolve, reject ) => setTimeout( () => resolve(), 2000 ) );
 }
@@ -113,18 +119,18 @@ const previewSounds = () => {
 
 const listenForItems = () => {
   return new Promise( async ( resolve, reject ) => {
-    isListening = true;
-    playerSequence = [];
+    state.isListening = true;
+    state.playerSequence = [];
     await wait();
-    lastPress = Date.now();
+    options.lastPress = Date.now();
     const listenInterval = setInterval( () => {
-      if ( playerSequence.length >= sequence.length || Date.now() - lastPress > delay ) {
+      if ( state.playerSequence.length >= state.sequence.length || Date.now() - options.lastPress > ( options.delay * 1.5 ) ) {
         clearInterval( listenInterval );
-        isListening = false;
-        const thisSequence = playerSequence.map( action => $( `#button${action}` ).text() );
-        if ( JSON.stringify( thisSequence ) !== JSON.stringify( sequence ) ) {
-          isPlaying = false;
-          console.log( sequence, thisSequence, playerSequence );
+        state.isListening = false;
+        const thisSequence = state.playerSequence.map( action => $( `#button${action}` ).text() );
+        if ( JSON.stringify( thisSequence ) !== JSON.stringify( state.sequence ) ) {
+          state.isPlaying = false;
+          console.log( state.sequence, thisSequence, state.playerSequence );
         }
         resolve();
       }
@@ -135,36 +141,36 @@ const listenForItems = () => {
 const playRound = async () => {
   addItemToSequence();
 
-  $( '#display' ).text( `Round ${sequence.length}` );
+  $( '#display' ).text( `Round ${state.sequence.length}` );
   await wait();
   await playItems();
   await listenForItems();
 
-  if ( isPlaying ) {
-    $( '#display' ).text( `Your score is ${sequence.length}` );
+  if ( state.isPlaying ) {
+    $( '#display' ).text( `Your score is ${state.sequence.length}` );
     await wait();
     playRound()
   }
   else {
     new Audio( './audio/game-over.wav' ).play();
-    $( '#display' ).text( `Game over. Your score is ${sequence.length - 1}` );
+    $( '#display' ).text( `Game over. Your score is ${state.sequence.length - 1}` );
   }
 };
 
 const startGame = async () => {
-  if ( !isPlaying ) {
-    isPlaying = true;
+  if ( !state.isPlaying ) {
+    state.isPlaying = true;
     
     $( '#display' ).text( 'Get Ready!' );
     new Audio( './audio/start.wav' ).play();
 
     await wait();
-    isPlaying = true;
-    sequence = [];
+    state.isPlaying = true;
+    state.sequence = [];
 
     ACTIONS.forEach( action => {
       let item = action;
-      switch ( itemType ) {
+      switch ( options.itemType ) {
         case SOUND_TYPE:
           item = SOUNDS[ action ];
           break;
@@ -180,7 +186,7 @@ const startGame = async () => {
       $( `#button${action}` ).text( item );
     } );
 
-    if ( itemType === SOUND_TYPE ) {
+    if ( options.itemType === SOUND_TYPE ) {
       await previewSounds();
     }
 
@@ -194,21 +200,23 @@ $( '#start' ).click( startGame );
 const TABS = [ 'play', 'options', 'help', 'about' ];
 TABS.forEach( tab => {
   $( `#${tab}-nav` ).click( () => {
-    $( '.content' ).fadeOut( 200 );
-    setTimeout( () => $( `#${tab}` ).fadeIn(), 210 );
+    if ( !state.isPlaying ) {
+      $( '.content' ).fadeOut( 200 );
+      setTimeout( () => $( `#${tab}` ).fadeIn(), 210 );
+    }
   } );
 } );
 
 const ACTIONS = [ 0, 1, 2, 3 ];
 ACTIONS.forEach( action => {
   $( `#button${action}` ).click( () => {
-    if ( isListening ) {
-      lastPress = Date.now();
-      playerSequence.push( action );
-      if ( itemType === SOUND_TYPE ) {
+    if ( state.isListening ) {
+      options.lastPress = Date.now();
+      state.playerSequence.push( action );
+      if ( options.itemType === SOUND_TYPE ) {
         synth.triggerAttackRelease( itemMap[ SOUND_TYPE ][ action ], .1 );
       }
-      else if ( itemType === COLOR_TYPE ) {
+      else if ( options.itemType === COLOR_TYPE ) {
         $( '#display' ).text( $( `#button${action}` ).text() );
       }
     }
