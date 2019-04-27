@@ -1,10 +1,182 @@
-body {
-
-}
-
 /* tabs hidden by default */
 #options,
 #help,
 #about {
   display: none;
+}
+
+body {
+    font-size: 12pt;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #555;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    background: #222;
+    margin: 0;
+    padding: 20px;
+    color: var(--ram-yellow);
+    background: var(--ram-darkgrey);
+}
+
+.nav-background {
+	background: var(--ram-darkgrey);
+}
+
+#navigation {
+    margin: auto;
+    width: fit-content;
+    padding: 10px;
+}
+
+
+button {
+    font-size: 16pt;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+.nav-button {
+    display: inline-block;
+    font-size: 12pt;
+    margin: 0 5px;
+}
+
+.nav-button button {
+    background: none;
+    border: none;
+    
+}
+
+@media (min-width: 450px) {
+	.nav-button button {
+		padding: 10px 20px;
+	}
+}
+
+@media (max-width: 350px) {
+	.nav-button button {
+		padding: 0;
+	}
+}
+
+
+.action-button {
+    width: 50%;
+    display: inline-block;
+    padding: 15px 5px;
+    margin: -7px;
+}
+
+.action-button button {
+    height: 40vw;
+    max-height: 30vh;
+    width: 40vw;
+    border: 5px solid black;
+    margin: 10px auto;
+    padding: 10px;
+    display: block;
+}
+
+#button0,
+#button1,
+#button2,
+#button3 {
+	color: black;
+}
+
+#button0:hover,
+#button1:hover,
+#button2:hover,
+#button3:hover {
+	background: var(--ram-darkgrey);
+}
+
+#play-nav { 
+	color: var(--ram-yellow);
+}
+#play-nav:hover { 
+	background: var(--ram-yellow);
+	color: black;
+}
+#button0 { 
+	background: var(--ram-yellow);
+}
+#button0:hover { 
+	color: var(--ram-yellow);
+}
+
+
+#options-nav { 
+	color: var(--ram-blue);
+}
+#options-nav:hover { 
+	background: var(--ram-blue);
+	color: black;
+}
+#button1 { 
+	background: var(--ram-blue);
+}
+#button1:hover { 
+	color: var(--ram-blue);
+}
+
+
+#help-nav { 
+	color: var(--ram-red);
+}
+#help-nav:hover { 
+	background: var(--ram-red);
+	color: black;
+}
+#button2 { 
+	background: var(--ram-red);
+}
+#button2:hover { 
+	color: var(--ram-red);
+}
+
+
+#about-nav { 
+	color: var(--ram-green);
+}
+#about-nav:hover { 
+	background: var(--ram-green);
+	color: black;
+}
+#button3 { 
+	background: var(--ram-green);
+}
+#button3:hover { 
+	color: var(--ram-green);
+}
+
+
+.nav-button button.open {
+	border-bottom: 5px solid white;
+}
+
+#main {
+	padding: 10px;
+	background: white;
+	color: black;
+	height: calc( 100vh - 167px );
+}
+
+#about {
+	width: 100%;
+	overflow: scroll;
+}
+
+:root {
+	--ram-yellow: #ffea37;
+	--ram-red: #FF6060;
+	--ram-green: #00ff00;
+	--ram-blue: #3399FF;
+	--ram-darkgrey: #4b4b4b;
 }

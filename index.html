@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Repeat After Me!</title>
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   </head>
@@ -10,11 +11,13 @@
       <h1>Repeat After Me!</h1>
     </div>
 
-    <div id="navigation" role="navigation" aria-controls="tab-content">
-      <div class="nav-button"><button id="play-nav" aria-controls="main" accesskey="p">Play</button></div>
-      <div class="nav-button"><button id="options-nav" aria-controls="main" accesskey="o">Options</button></div>
-      <div class="nav-button"><button id="help-nav" aria-controls="main" accesskey="h">Help</button></div>
-      <div class="nav-button"><button id="about-nav" aria-controls="main" accesskey="i">About</button></div>
+    <div class="nav-background">
+      <div id="navigation" role="navigation" aria-controls="tab-content">
+        <div class="nav-button"><button id="play-nav" class="open" aria-controls="main" accesskey="p">Play</button></div>
+        <div class="nav-button"><button id="options-nav" aria-controls="main" accesskey="o">Options</button></div>
+        <div class="nav-button"><button id="help-nav" aria-controls="main" accesskey="h">Help</button></div>
+        <div class="nav-button"><button id="about-nav" aria-controls="main" accesskey="i">About</button></div>
+      </div>
     </div>
 
     <div id="main" role="main" aria-live="polite">
@@ -23,10 +26,10 @@
         <div id="display" role="alert" aria-live="assertive"></div>
 
         <div id="action-buttons">
-          <button id="button0">0</button>
-          <button id="button1">1</button>
-          <button id="button2">2</button>
-          <button id="button3">3</button>  
+          <div class="action-button"><button id="button0">0</button></div>
+          <div class="action-button"><button id="button1">1</button></div>
+          <div class="action-button"><button id="button2">2</button></div>
+          <div class="action-button"><button id="button3">3</button> </div>
         </div>
 
         <button id="start">Start!</button>
@@ -86,16 +89,24 @@
       </div>
 
       <div id="about" class="content">
+        <h2>Accessible Features:</h2>
+        <ul>
+          <li>Screen Reader compatible (tested with NVDA)</li>
+          <li>Features non-visual mode, non auditory modes, and color blind mode.</li>
+          <li>All colors are WCAG AAA rated for contrast.  Verified at https://webaim.org/resources/contrastchecker/</li>
+        </ul>
         <h2>Attributions:</h2>
         <ul>
-          <li><span>This game uses these sounds from freesound:</span>
+          <li>
+            <span>This game uses these sounds from freesound:</span>
             <ul>
               <li>Computer Error by akelley6 ( <a href="https://freesound.org/people/akelley6/">https://freesound.org/people/akelley6/</a> )</li>
               <li>Game Over Arcade by myfox14 ( <a href="https://freesound.org/people/myfox14/">https://freesound.org/people/myfox14/</a> )</li>
               <li>8-Bit Arcade Video Game Start Sound Effect, Gun Reload and Jump !! by FartBiscuit1700 ( <a href="https://freesound.org/people/FartBiscuit1700/">https://freesound.org/people/FartBiscuit1700/</a> )</li>
             </ul>
           </li>
-          <li><span>Code Libraries:</span>
+          <li>
+            <span>Code Libraries:</span>
             <ul>
               <li>jQuery: <a href="https://fontawesome.com/">https://jquery.com/</a></li>
               <li>Tone.js: <a href="https://fontawesome.com/">https://tonejs.github.io/</a></li>

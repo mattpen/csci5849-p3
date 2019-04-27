@@ -23,10 +23,10 @@ const COLOR_TYPE = 'COLOR';
 const SHAPE_TYPE = 'SHAPE';
 
 const COLORS = [
-  'red',
+  'yellow',
   'blue',
-  'green',
-  'indigo'
+  'red',
+  'green'
 ];
 
 const SOUNDS = [
@@ -201,6 +201,8 @@ const TABS = [ 'play', 'options', 'help', 'about' ];
 TABS.forEach( tab => {
   $( `#${tab}-nav` ).click( () => {
     if ( !state.isPlaying ) {
+      $( `.nav-button button` ).removeClass( 'open' );
+      $( `#${tab}-nav` ).addClass( 'open' );
       $( '.content' ).fadeOut( 200 );
       setTimeout( () => $( `#${tab}` ).fadeIn(), 210 );
     }
