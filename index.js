@@ -184,6 +184,8 @@ const previewSounds = () => {
     setInterval( () => {
       if ( c < 4 ) {
         $( '#display-text' ).text( `Hotkey: ${actionToKey[ c ]}` );
+        $( '.action-button button' ).removeClass( 'active' );
+        $( `#button${c}` ).addClass( 'active' );
         synth.triggerAttackRelease( itemMap[ SOUND_TYPE ][ c ], .6 );
         c++;
       }
@@ -296,6 +298,7 @@ const startGame = async () => {
       $( '#display-text' ).text( 'These are the tones you will hear.' );
       await wait( 1500 );
       await previewSounds();
+      $( '.action-button button' ).removeClass( 'active' );
       await wait( 1000 )
       $( '#swatch' ).hide();
     }
