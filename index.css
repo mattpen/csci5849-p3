@@ -192,52 +192,54 @@ button.active {
   transition: var(--action-transition);
 }
 
-.supports-hover.violet:hover {
-  color: var(--violet);
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
+@media (hover: hover) {
+  .supports-hover.violet:hover {
+    color: var(--violet);
+    background: var(--darkgrey);
+    transition: var(--action-transition);
+  }
 
-.supports-hover.red:hover {
-  color: var(--red);
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
+  .supports-hover.red:hover {
+    color: var(--red);
+    background: var(--darkgrey);
+    transition: var(--action-transition);
+  }
 
-.supports-hover.green:hover {
-  color: var(--green);
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
+  .supports-hover.green:hover {
+    color: var(--green);
+    background: var(--darkgrey);
+    transition: var(--action-transition);
+  }
 
-.supports-hover.blue:hover {
-  color: var(--blue);
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
+  .supports-hover.blue:hover {
+    color: var(--blue);
+    background: var(--darkgrey);
+    transition: var(--action-transition);
+  }
 
-.supports-hover.violet-reverse:hover {
-  background: var(--violet);
-  color: var(--darkgrey);
-  transition: var(--action-transition);
-}
+  .supports-hover.violet-reverse:hover {
+    background: var(--violet);
+    color: var(--darkgrey);
+    transition: var(--action-transition);
+  }
 
-.supports-hover.red-reverse:hover {
-  background: var(--red);
-  color: var(--darkgrey);
-  transition: var(--action-transition);
-}
+  .supports-hover.red-reverse:hover {
+    background: var(--red);
+    color: var(--darkgrey);
+    transition: var(--action-transition);
+  }
 
-.supports-hover.green-reverse:hover {
-  background: var(--green);
-  color: var(--darkgrey);
-  transition: var(--action-transition);
-}
+  .supports-hover.green-reverse:hover {
+    background: var(--green);
+    color: var(--darkgrey);
+    transition: var(--action-transition);
+  }
 
-.supports-hover.blue-reverse:hover {
-  background: var(--blue);
-  color: var(--darkgrey);
-  transition: var(--action-transition);
+  .supports-hover.blue-reverse:hover {
+    background: var(--blue);
+    color: var(--darkgrey);
+    transition: var(--action-transition);
+  }
 }
 
 #swatch {
