@@ -258,6 +258,8 @@ const startGame = async () => {
     state.delay = options.delay;
     state.sequence = [];
 
+
+
     ACTIONS.forEach( action => {
       let item = itemMap[ options.itemType ][ action ];
       $( `#button${action}` ).empty()
@@ -301,6 +303,7 @@ const startGame = async () => {
   }
 };
 $( '#start' ).click( startGame );
+$( '#start' ).click( () => $( '#button0' ).focus() );
 
 // Enables the TAB navigation
 const TABS = [ 'play', 'options', 'help', 'about' ];
@@ -340,6 +343,7 @@ $( document ).on( 'keydown', event => {
   if ( keyToAction.hasOwnProperty( event.key ) ) {
     const action = keyToAction[ event.key ];
     $( `#button${action}` ).click();
+    $( `#button${action}` ).focus();
     $( `#button${action}` ).addClass( 'active' );
   }
 });
