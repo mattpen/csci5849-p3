@@ -23,7 +23,7 @@ const COLOR_TYPE = 'COLOR';
 const SHAPE_TYPE = 'SHAPE';
 
 const COLORS = [
-  'yellow',
+  'violet',
   'blue',
   'red',
   'green'
@@ -77,16 +77,21 @@ const addItemToSequence = item => {
 const playNext = ( subSequence, resolve ) => {
   if ( subSequence.length > 0 ) {
     if ( options.itemType === SOUND_TYPE ) {
+      $( '#display' ).text( `${state.sequence.length - subSequence.length + 1}` );
       synth.triggerAttackRelease( subSequence.shift(), options.delay * .9 / 1000 );
     }
     else if ( options.itemType === COLOR_TYPE ) {
-      $( '#display' ).text( `${state.sequence.length - subSequence.length + 1}. ${subSequence.shift()}` );
+      const item = subSequence.shift();
+      $( '#display' ).text( `${state.sequence.length - subSequence.length}. ${item}` );
+      $( '#swatch' ).removeClass();
+      $( '#swatch' ).addClass( item );
     }
     
     setTimeout( () => playNext( subSequence, resolve ), options.delay );
   }
   else {
     $( '#display' ).text( 'Your Turn!' );
+    $( '#swatch' ).removeClass();
     resolve();
   }
 }
@@ -97,9 +102,11 @@ const playItems = () => {
   } );
 }; 
 
-// async/await - do nothing for 2 seconds
-const wait = () => {
-  return new Promise( ( resolve, reject ) => setTimeout( () => resolve(), 2000 ) );
+/* 
+ * Wait for t milliseconds. Defaults to 2 seconds if no value supplied.
+ */ 
+const wait = ( t ) => {
+  return new Promise( ( resolve, reject ) => setTimeout( () => resolve(), t || 2000 ) );
 }
 
 const previewSounds = () => {
@@ -146,6 +153,8 @@ const playRound = async () => {
   await playItems();
   await listenForItems();
 
+  $( '#display' ).focus();
+  
   if ( state.isPlaying ) {
     $( '#display' ).text( `Your score is ${state.sequence.length}` );
     await wait();
@@ -154,6 +163,10 @@ const playRound = async () => {
   else {
     new Audio( './audio/game-over.wav' ).play();
     $( '#display' ).text( `Game over. Your score is ${state.sequence.length - 1}` );
+    $( '#start' ).show();
+    $( '#navigation' ).show();
+    $( '#header' ).show();
+    $( '#action-buttons' ).hide();
   }
 };
 
@@ -161,10 +174,17 @@ const startGame = async () => {
   if ( !state.isPlaying ) {
     state.isPlaying = true;
     
-    $( '#display' ).text( 'Get Ready!' );
+    $( '#swatch' ).removeClass();
+    $( '#action-buttons' ).show();
+    $( '#start' ).hide();
+    $( '#navigation' ).hide();
+    $( '#header' ).hide();
+
+    let getReadyText = `Get Ready! The hotkeys are A: ${itemMap[ options.itemType ][ 0 ]}, S: ${itemMap[ options.itemType ][ 1 ]}, D: ${itemMap[ options.itemType ][ 2 ]}, F: ${itemMap[ options.itemType ][ 3 ]}`;
+    $( '#display' ).text( getReadyText );
     new Audio( './audio/start.wav' ).play();
 
-    await wait();
+    await wait( 4000 );
     state.isPlaying = true;
     state.sequence = [];
 
@@ -188,6 +208,10 @@ const startGame = async () => {
 
     if ( options.itemType === SOUND_TYPE ) {
       await previewSounds();
+      $( '#swatch' ).hide();
+    }
+    else {
+      $( '#swatch' ).show();
     }
 
     playRound();
@@ -201,8 +225,8 @@ const TABS = [ 'play', 'options', 'help', 'about' ];
 TABS.forEach( tab => {
   $( `#${tab}-nav` ).click( () => {
     if ( !state.isPlaying ) {
-      $( `.nav-button button` ).removeClass( 'open' );
-      $( `#${tab}-nav` ).addClass( 'open' );
+      $( `.nav-button` ).removeClass( 'open' );
+      $( `#${tab}-nav` ).parent().addClass( 'open' );
       $( '.content' ).fadeOut( 200 );
       setTimeout( () => $( `#${tab}` ).fadeIn(), 210 );
     }
@@ -243,3 +267,10 @@ document.addEventListener("keydown", event => {
     $( '#button3' ).click()
   }
 });
+
+let startCounter = 0;
+setInterval( () => {
+  $( '#start' ).removeClass();
+  $( '#start' ).addClass( COLORS[ startCounter % 4 ] );
+  startCounter++;
+}, 2000 );

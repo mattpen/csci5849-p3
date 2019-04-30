@@ -6,177 +6,251 @@
 }
 
 body {
-    font-size: 12pt;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: #555;
-    color: white;
+  font-size: 12pt;
+  font-family: 'sf_cartoonist_handregular', Arial, sans-serif;
+  margin: 0;
+  background: white;
 }
 
 h1 {
-    text-align: center;
-    background: #222;
-    margin: 0;
-    padding: 20px;
-    color: var(--ram-yellow);
-    background: var(--ram-darkgrey);
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  color: var(--violet);
+  background: var(--darkgrey);
 }
 
 .nav-background {
-	background: var(--ram-darkgrey);
+  background: var(--darkgrey);
 }
 
 #navigation {
-    margin: auto;
-    width: fit-content;
-    padding: 10px;
+  margin: auto;
+  width: fit-content;
+  padding: 10px;
 }
 
 
 button {
-    font-size: 16pt;
+  font-size: 16pt;
 }
 
 button:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .nav-button {
-    display: inline-block;
-    font-size: 12pt;
-    margin: 0 5px;
+  display: inline-block;
+  font-size: 12pt;
+  margin: 0 5px;
 }
 
 .nav-button button {
-    background: none;
-    border: none;
-    
+  background: none;
+  border: none;
+  border-radius: var(--border-radius);
 }
 
 @media (min-width: 450px) {
-	.nav-button button {
-		padding: 10px 20px;
-	}
+  .nav-button button {
+    padding: 10px 20px;
+  }
 }
 
 @media (max-width: 350px) {
-	.nav-button button {
-		padding: 0;
-	}
+  .nav-button button {
+    padding: 0;
+  }
 }
 
 
 .action-button {
-    width: 50%;
-    display: inline-block;
-    padding: 15px 5px;
-    margin: -7px;
+  width: 50%;
+  display: inline-block;
+  padding: 15px 5px;
+  margin: -7px;
 }
 
 .action-button button {
-    height: 40vw;
-    max-height: 30vh;
-    width: 40vw;
-    border: 5px solid black;
-    margin: 10px auto;
-    padding: 10px;
-    display: block;
+  height: 40vw;
+  max-height: 30vh;
+  width: 40vw;
+  border: 5px solid var(--darkgrey);
+  margin: 10px auto;
+  padding: 10px;
+  display: block;
+  font-size: 45px;
+  border-radius: var(--border-radius);
 }
 
 #button0,
 #button1,
 #button2,
 #button3 {
-	color: black;
+  color: var(--darkgrey);
+  transition: color .5s ease;
 }
 
 #button0:hover,
 #button1:hover,
 #button2:hover,
 #button3:hover {
-	background: var(--ram-darkgrey);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
 }
 
 #play-nav { 
-	color: var(--ram-yellow);
+  color: var(--violet);
+  transition: var(--action-transition);
 }
 #play-nav:hover { 
-	background: var(--ram-yellow);
-	color: black;
+  background: var(--violet);
+  color: var(--darkgrey);
+  transition: var(--action-transition);
 }
 #button0 { 
-	background: var(--ram-yellow);
+  background: var(--violet);
+  transition: var(--action-transition);
 }
 #button0:hover { 
-	color: var(--ram-yellow);
+  color: var(--violet);
+  transition: var(--action-transition);
 }
 
 
 #options-nav { 
-	color: var(--ram-blue);
+  color: var(--blue);
+  transition: var(--action-transition);
 }
 #options-nav:hover { 
-	background: var(--ram-blue);
-	color: black;
+  background: var(--blue);
+  color: black;
+  transition: var(--action-transition);
 }
 #button1 { 
-	background: var(--ram-blue);
+  background: var(--blue);
+  transition: var(--action-transition);
 }
 #button1:hover { 
-	color: var(--ram-blue);
+  color: var(--blue);
+  transition: var(--action-transition);
 }
 
 
 #help-nav { 
-	color: var(--ram-red);
+  color: var(--red);
+  transition: var(--action-transition);
 }
 #help-nav:hover { 
-	background: var(--ram-red);
-	color: black;
+  background: var(--red);
+  color: black;
+  transition: var(--action-transition);
 }
 #button2 { 
-	background: var(--ram-red);
+  background: var(--red);
+  transition: var(--action-transition);
 }
 #button2:hover { 
-	color: var(--ram-red);
+  color: var(--red);
+  transition: var(--action-transition);
 }
 
 
 #about-nav { 
-	color: var(--ram-green);
+  color: var(--green);
+  transition: var(--action-transition);
 }
 #about-nav:hover { 
-	background: var(--ram-green);
-	color: black;
+  background: var(--green);
+  color: var(--darkgrey);
+  transition: var(--action-transition);
 }
 #button3 { 
-	background: var(--ram-green);
+  background: var(--green);
+  transition: var(--action-transition);
 }
 #button3:hover { 
-	color: var(--ram-green);
+  color: var(--green);
+  transition: var(--action-transition);
 }
 
-
-.nav-button button.open {
-	border-bottom: 5px solid white;
+.nav-button.open {
+  border-bottom: 5px solid white;
 }
 
 #main {
-	padding: 10px;
-	background: white;
-	color: black;
-	height: calc( 100vh - 167px );
+  padding: 10px;
+  background: white;
+  color: var(--darkgrey);
+  height: calc( 100vh - 167px );
 }
 
-#about {
-	width: 100%;
-	overflow: scroll;
+#help, #about {
+  width: 100%;
+  overflow: auto;
+  font-family: Arial, sans-serif;
+}
+
+.violet {
+  background: var(--violet);
+  transition: var(--action-transition);
+}
+
+.red {
+  background: var(--red);
+  transition: var(--action-transition);
+}
+
+.green {
+  background: var(--green);
+  transition: var(--action-transition);
+}
+
+.blue {
+  background: var(--blue);
+  transition: var(--action-transition);
+}
+
+#swatch {
+  height: 100px;
+  width: 100px;
+  margin: auto;
+  display: none;
+}
+
+.key {
+  color: var(--green);
+  background: var(--darkgrey);
+  padding: 1px 5px;
+}
+
+#action-buttons {
+  display: none;
+}
+
+#start {
+  display: block;
+  margin: auto;
+  border: 0;
+  width: 60vw;
+  height: 50vw;
+  max-height: 50vh;
+  font-size: 40pt;
+  border: 1px solid var(--darkgrey);
+  border-radius: var(--border-radius);
+}
+
+#display {
+  font-size: 24px;
+  text-align: center;
 }
 
 :root {
-	--ram-yellow: #ffea37;
-	--ram-red: #FF6060;
-	--ram-green: #00ff00;
-	--ram-blue: #3399FF;
-	--ram-darkgrey: #4b4b4b;
+  --violet: #FACBFB;
+  --red: #FF0B0B;
+  --green: #70FF46;
+  --blue: #334FF1;
+  --darkgrey: #000000;
+  --border-radius: 45px;
+  --action-transition: color .25s ease,background-color .25s ease;
 }

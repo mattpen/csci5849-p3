@@ -4,6 +4,7 @@
     <title>Repeat After Me!</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./font/stylesheet.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   </head>
   <body>
@@ -20,62 +21,62 @@
       </div>
     </div>
 
-    <div id="main" role="main" aria-live="polite">
+    <div id="main" role="main" aria-live="off">
       <div id="play" class="content">
+        <button id="start" class="red">Start!</button>
         
         <div id="display" role="alert" aria-live="assertive"></div>
+        <div id="swatch"></div>
 
         <div id="action-buttons">
-          <div class="action-button"><button id="button0">0</button></div>
-          <div class="action-button"><button id="button1">1</button></div>
-          <div class="action-button"><button id="button2">2</button></div>
-          <div class="action-button"><button id="button3">3</button> </div>
+          <div class="action-button"><button id="button0" accesskey="a">0</button></div>
+          <div class="action-button"><button id="button1" accesskey="s">1</button></div>
+          <div class="action-button"><button id="button2" accesskey="d">2</button></div>
+          <div class="action-button"><button id="button3" accesskey="f">3</button> </div>
         </div>
-
-        <button id="start">Start!</button>
       </div>
       
       <div id="options" class="content">
         <label id="type-label">Game Type</label>
         <select id="type-select" aria-labelledby="type-label">
-          <option>Tones</option>
-          <option>Colors</option>
-          <option>Shapes</option>
+          <option value="tones">Tones</option>
+          <option value="colors">Colors</option>
+          <option value="shapes">Shapes</option>
         </select>
 
         <label id="speed-label">Speed</label>
         <select id="speed-select" aria-labelledby="speed-label">
-          <option>Slowest</option>
-          <option>Slow</option>
-          <option>Fast</option>
-          <option>Fastest</option>
+          <option value="slowest">Slowest</option>
+          <option value="slow">Slow</option>
+          <option value="fast">Fast</option>
+          <option value="fastest">Fastest</option>
         </select>
 
         <label id="level-label">Level (Maximum concurrent items)</label>
         <select id="level-select" aria-labelledby="level-label">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
         </select>
         
         <div id="chord-select-container">
           <label id="chord-label">Chord</label>
           <select id="chord-select" aria-labelledby="chord-label">
-            <option>Major Triad</option>
-            <option>Minor Triad</option>
-            <option>Dominant 7</option>
-            <option>Diminished 7</option>
+            <option value="maj">Major Triad</option>
+            <option value="min">Minor Triad</option>
+            <option value="dom">Dominant 7</option>
+            <option value="dim">Diminished 7</option>
           </select>
         </div>
 
         <div id="color-select-container">
           <label id="color-label">Color Palette</label>
           <select id="color-select" aria-labelledby="color-label">
-            <option>RGBI</option>
-            <option>something</option>
-            <option>something</option>
-            <option>something</option>
+            <option value="RGBI">RGBI</option>
+            <option value="something">something</option>
+            <option value="something">something</option>
+            <option value="something">something</option>
           </select>
         </div>
       </div>
@@ -83,6 +84,9 @@
       <div id="help" class="content">
         <h2>Instructions</h2>
         <p>The premise of this game is to repeat the sequence presented by the computer.  The sequence starts with just one item and increases in both length and speed incrementally.  The sequence must be repeated at least as fast as the computer presents it.  The sequence can be repeated using the buttons in the play area or by using the <span class="key">a</span>, <span class="key">s</span>, <span class="key">d</span>, and <span class="key">f</span> keys.</p>
+
+        <h3>Notes for Screen Readers</h3>
+        <p>This game was designed and tested for use with NVDA on Windows 10.  Compatibility with other systems has not been tested.  It is recommended to use the NVDA in "Browse Mode" (<span class="key">Insert</span> + <span class="key">Space</span>) or the hotkeys will not work. It is also recommended to set the Windows Speech Settings voice rate to 70% or higher.</p>
 
         <h3>Special Instructions for playing with Tones</h3>
         <p>If playing using tones as the sequence item, the lowest tone is triggered by <span class="key">a</span>, followed by <span class="key">s</span> and <span class="key">d</span> and then <span class="key">f</span> triggers the highest tone. At the start of the game, all 4 tones are played in sequence from lowest to highest.  This version of the game is best for people who have some degree of musical ear training or who wish to learn how to recognize melodies by ear.</p>
@@ -95,7 +99,14 @@
         <ul>
           <li>Screen Reader compatible (tested with NVDA)</li>
           <li>Features non-visual mode, non auditory modes, and color blind mode.</li>
-          <li>All colors are WCAG AAA rated for contrast.  Verified at https://webaim.org/resources/contrastchecker/</li>
+          <li>
+            <span>All colors are WCAG AAA rated for contrast.</span>
+            <ul>
+              <li>Designed using <a href="https://davidmathlogic.com/colorblind">https://davidmathlogic.com/colorblind</a>.</li>
+              <li>Tested using <a href="http://www.colororacle.org/">http://www.colororacle.org/</a>.</li>
+              <li>Verified at <a href="https://webaim.org/resources/contrastchecker">https://webaim.org/resources/contrastchecker</a>./</li>
+            </ul>
+          </li>
         </ul>
         <h2>Attributions:</h2>
         <ul>
