@@ -37,46 +37,42 @@
       </div>
       
       <div id="options" class="content">
-        <label id="type-label">Game Type</label>
-        <select id="type-select" aria-labelledby="type-label">
-          <option value="tones">Tones</option>
-          <option value="colors">Colors</option>
-          <option value="shapes">Shapes</option>
-        </select>
+        <div class="options-section">
+          <label id="type-label">Game Type</label>
+          <select id="type-select" aria-labelledby="type-label">
+            <option value="SOUND">Tones</option>
+            <option value="COLOR">Colors</option>
+            <option value="SHAPE">Shapes</option>
+          </select>
+        </div>
 
-        <label id="speed-label">Speed</label>
-        <select id="speed-select" aria-labelledby="speed-label">
-          <option value="slowest">Slowest</option>
-          <option value="slow">Slow</option>
-          <option value="fast">Fast</option>
-          <option value="fastest">Fastest</option>
-        </select>
+        <div class="options-section">
+          <label id="speed-label">Speed</label>
+          <select id="speed-select" aria-labelledby="speed-label">
+            <option value="slowest">Slowest</option>
+            <option value="slow">Slow</option>
+            <option value="fast">Fast</option>
+            <option value="fastest">Fastest</option>
+          </select>
+        </div>
 
-        <label id="level-label">Level (Maximum concurrent items)</label>
-        <select id="level-select" aria-labelledby="level-label">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
+        <div class="options-section">
+          <label id="level-label">Level (Maximum concurrent items)</label>
+          <select id="level-select" aria-labelledby="level-label">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
         
-        <div id="chord-select-container">
+        <div id="chord-select-container" class="options-section">
           <label id="chord-label">Chord</label>
           <select id="chord-select" aria-labelledby="chord-label">
             <option value="maj">Major Triad</option>
             <option value="min">Minor Triad</option>
             <option value="dom">Dominant 7</option>
             <option value="dim">Diminished 7</option>
-          </select>
-        </div>
-
-        <div id="color-select-container">
-          <label id="color-label">Color Palette</label>
-          <select id="color-select" aria-labelledby="color-label">
-            <option value="RGBI">RGBI</option>
-            <option value="something">something</option>
-            <option value="something">something</option>
-            <option value="something">something</option>
           </select>
         </div>
       </div>

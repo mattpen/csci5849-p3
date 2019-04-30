@@ -52,7 +52,7 @@ const itemMap = {
 // Game options
 const options = {
   level: 1,
-  itemType: COLOR_TYPE,
+  itemType: SOUND_TYPE,
   delay: 1000,
   lastPress: 0
 }
@@ -154,7 +154,7 @@ const playRound = async () => {
   await listenForItems();
 
   $( '#display' ).focus();
-  
+
   if ( state.isPlaying ) {
     $( '#display' ).text( `Your score is ${state.sequence.length}` );
     await wait();
@@ -274,3 +274,13 @@ setInterval( () => {
   $( '#start' ).addClass( COLORS[ startCounter % 4 ] );
   startCounter++;
 }, 2000 );
+
+$( '#type-select' ).change( () => {
+  const newType = $( '#type-select' ).val();
+  if ( itemMap.hasOwnProperty( newType ) ) {
+    options.itemType = $( '#type-select' ).val();  
+  }
+  else {
+    throw "Unsupported game type";
+  }
+} );

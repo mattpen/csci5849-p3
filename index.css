@@ -245,6 +245,11 @@ button:hover {
   text-align: center;
 }
 
+.options-section {
+  margin: 10px 0;
+  font-family: Arial, sans-serif;
+}
+
 :root {
   --violet: #FACBFB;
   --red: #FF0B0B;
