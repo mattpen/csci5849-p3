@@ -30,13 +30,18 @@ h1 {
   padding: 10px;
 }
 
-
 button {
   font-size: 16pt;
+  box-shadow: 9px 9px;
 }
 
 button:hover {
   cursor: pointer;
+}
+
+button:active {
+  box-shadow: 5px 5px;
+  border-style: hidden;
 }
 
 .nav-button {
@@ -48,6 +53,7 @@ button:hover {
 .nav-button button {
   background: none;
   border: none;
+  box-shadow: none;
   border-radius: var(--border-radius);
 }
 
@@ -83,99 +89,16 @@ button:hover {
   border-radius: var(--border-radius);
 }
 
-#button0,
-#button1,
-#button2,
-#button3 {
-  color: var(--darkgrey);
-  transition: color .5s ease;
-}
-
-#button0:hover,
-#button1:hover,
-#button2:hover,
-#button3:hover {
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
-
-#play-nav { 
-  color: var(--violet);
-  transition: var(--action-transition);
-}
-#play-nav:hover { 
-  background: var(--violet);
-  color: var(--darkgrey);
-  transition: var(--action-transition);
-}
-#button0 { 
-  background: var(--violet);
-  transition: var(--action-transition);
-}
-#button0:hover { 
-  color: var(--violet);
-  transition: var(--action-transition);
-}
-
-
-#options-nav { 
-  color: var(--blue);
-  transition: var(--action-transition);
-}
-#options-nav:hover { 
-  background: var(--blue);
-  color: black;
-  transition: var(--action-transition);
-}
-#button1 { 
-  background: var(--blue);
-  transition: var(--action-transition);
-}
-#button1:hover { 
-  color: var(--blue);
-  transition: var(--action-transition);
-}
-
-
-#help-nav { 
-  color: var(--red);
-  transition: var(--action-transition);
-}
-#help-nav:hover { 
-  background: var(--red);
-  color: black;
-  transition: var(--action-transition);
-}
-#button2 { 
-  background: var(--red);
-  transition: var(--action-transition);
-}
-#button2:hover { 
-  color: var(--red);
-  transition: var(--action-transition);
-}
-
-
-#about-nav { 
-  color: var(--green);
-  transition: var(--action-transition);
-}
-#about-nav:hover { 
-  background: var(--green);
-  color: var(--darkgrey);
-  transition: var(--action-transition);
-}
-#button3 { 
-  background: var(--green);
-  transition: var(--action-transition);
-}
-#button3:hover { 
-  color: var(--green);
-  transition: var(--action-transition);
-}
-
 .nav-button.open {
   border-bottom: 5px solid white;
+}
+
+.nav-button:focus-within {
+    outline: 1px solid var(--violet);
+}
+
+.nav-button button:focus {
+    outline: none;
 }
 
 #main {
@@ -193,21 +116,98 @@ button:hover {
 
 .violet {
   background: var(--violet);
+  color: var(--darkgrey);
   transition: var(--action-transition);
 }
 
 .red {
   background: var(--red);
+  color: var(--darkgrey);
   transition: var(--action-transition);
 }
 
 .green {
   background: var(--green);
+  color: var(--darkgrey);
   transition: var(--action-transition);
 }
 
 .blue {
   background: var(--blue);
+  color: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.violet:hover {
+  color: var(--violet);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.red:hover {
+  color: var(--red);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.green:hover {
+  color: var(--green);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.blue:hover {
+  color: var(--blue);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+
+.violet-reverse {
+  color: var(--violet);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.red-reverse {
+  color: var(--red);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.green-reverse {
+  color: var(--green);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.blue-reverse {
+  color: var(--blue);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.violet-reverse:hover {
+  background: var(--violet);
+  color: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.red-reverse:hover {
+  background: var(--red);
+  color: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.green-reverse:hover {
+  background: var(--green);
+  color: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.blue-reverse:hover {
+  background: var(--blue);
+  color: var(--darkgrey);
   transition: var(--action-transition);
 }
 
@@ -230,8 +230,7 @@ button:hover {
 
 #start {
   display: block;
-  margin: auto;
-  border: 0;
+  margin: 10px auto;
   width: 60vw;
   height: 50vw;
   max-height: 50vh;

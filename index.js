@@ -49,66 +49,114 @@ const itemMap = {
   SHAPE: SHAPES
 }
 
+const actionToKey = {
+  0: 'a',
+  1: 's',
+  2: 'd',
+  3: 'f'
+}
+
+const keyToAction = {
+  a: 0,
+  s: 1,
+  d: 2,
+  f: 3
+}
+
 // Game options
 const options = {
-  level: 1,
-  itemType: SOUND_TYPE,
-  delay: 1000,
-  lastPress: 0
+  level: 1, // number of concurrent items
+  itemType: SOUND_TYPE, // type of game
+  delay: 2000 // delay between items in playback
 }
 
 // Game state
 const state = {
-  sequence: [],
-  playerSequence: [],
-  isPlaying: false,
-  isListening: false,
-  highScore: 0
+  sequence: [], // The true sequence
+  playerSequence: [], // The players input sequence
+  isPlaying: false, // true if the game is in progress
+  isListening: false, // true if it is the player's turn
+  highScore: 0, // highest score since page load
+  lastPress: Date.now(), // The timestamp of the last time a button was pressed while isListening was equal to true
+  delay: options.delay // Time to wait between items for each round
 }
 
+// Removes classes and contents from the color/shape display planel
+const clearSwatch = () => {
+  $( '#swatch' ).removeClass( 'violet blue green red' );
+  $( '#swatch' ).empty();
+}
 
+// Returns a font awesome element with the appropriate class
+const createIcon = ( name ) => {
+  const icon = document.createElement( 'i' );
+  $( icon ).addClass( 'fa' );
+  $( icon ).addClass( `fa-${name}` );
+  return icon;
+}
+
+// Adds a random item to the sequence
 const addItemToSequence = item => {
   const index = Math.floor( Math.random() * 4 );
   state.sequence.push( itemMap[ options.itemType ][ index ] );
-  
-  options.delay = Math.floor( options.delay * 0.9 );
 };
 
+// Plays a single item from the computer sequence
+// @recursive
 const playNext = ( subSequence, resolve ) => {
   if ( subSequence.length > 0 ) {
+    const item = subSequence.shift();
+    const round = state.sequence.length - subSequence.length;
+
     if ( options.itemType === SOUND_TYPE ) {
-      $( '#display' ).text( `${state.sequence.length - subSequence.length + 1}` );
-      synth.triggerAttackRelease( subSequence.shift(), options.delay * .9 / 1000 );
+      $( '#display' ).text( `${round}` );
+      synth.triggerAttackRelease( item, state.delay * .8 / 1000 );
     }
     else if ( options.itemType === COLOR_TYPE ) {
-      const item = subSequence.shift();
-      $( '#display' ).text( `${state.sequence.length - subSequence.length}. ${item}` );
-      $( '#swatch' ).removeClass();
+      $( '#display' ).text( `${round}. ${item}` );
+      clearSwatch()
       $( '#swatch' ).addClass( item );
     }
+    else if ( options.itemType === SHAPE_TYPE ) {
+      $( '#display' ).text( `${round}. ${item}` );
+      clearSwatch();
+      $( '#swatch' ).append( createIcon( item ) );
+    }
+    else {
+      throw `Type not supported ${options.itemType}`;
+    }
     
-    setTimeout( () => playNext( subSequence, resolve ), options.delay );
+    setTimeout( () => playNext( subSequence, resolve ), state.delay );
   }
   else {
     $( '#display' ).text( 'Your Turn!' );
-    $( '#swatch' ).removeClass();
+    clearSwatch()
     resolve();
   }
 }
 
+// Plays all items in the computer's sequence.  Promise resolves when complete.
 const playItems = () => {
   return new Promise( ( resolve, reject ) => {
     playNext( state.sequence.slice(), resolve );
   } );
 }; 
 
-/* 
- * Wait for t milliseconds. Defaults to 2 seconds if no value supplied.
- */ 
-const wait = ( t ) => {
+// Wait for t milliseconds. Defaults to 2 seconds if no value supplied. 
+const wait = t => {
   return new Promise( ( resolve, reject ) => setTimeout( () => resolve(), t || 2000 ) );
 }
 
+// Plays an audio clip and returns a promise that resolves after it is complete
+// This is a pretty hacky way to do it
+const playClipAndWait = async src => {
+  const audio = new Audio( src );
+  await audio.play();
+  return await wait( audio.duration * 1000 );
+}
+
+// Plays a sequence of all tones in the current chord.
+// This can probably be improved with the Tone.js transport
 const previewSounds = () => {
   return new Promise( ( resolve, reject ) => {
     let c = 0;
@@ -120,21 +168,23 @@ const previewSounds = () => {
       else {
         resolve();
       }
-    }, 350);
+    }, 350 );
   } );
 }
 
+// Waits for the user to finish the sequence, make an error, or exceed the time limit.
+// Ends the current game if appropriate
 const listenForItems = () => {
   return new Promise( async ( resolve, reject ) => {
     state.isListening = true;
     state.playerSequence = [];
     await wait();
-    options.lastPress = Date.now();
+    state.lastPress = Date.now();
     const listenInterval = setInterval( () => {
-      if ( state.playerSequence.length >= state.sequence.length || Date.now() - options.lastPress > ( options.delay * 1.5 ) ) {
+      if ( state.playerSequence.length >= state.sequence.length || Date.now() - state.lastPress > ( state.delay * 1.5 ) ) {
         clearInterval( listenInterval );
         state.isListening = false;
-        const thisSequence = state.playerSequence.map( action => $( `#button${action}` ).text() );
+        const thisSequence = state.playerSequence.map( action => itemMap[ options.itemType ][ action ] );
         if ( JSON.stringify( thisSequence ) !== JSON.stringify( state.sequence ) ) {
           state.isPlaying = false;
           console.log( state.sequence, thisSequence, state.playerSequence );
@@ -145,6 +195,7 @@ const listenForItems = () => {
   } );
 };
 
+// Sets up a single round consisting of one computer turn and one player turn
 const playRound = async () => {
   addItemToSequence();
 
@@ -158,10 +209,14 @@ const playRound = async () => {
   if ( state.isPlaying ) {
     $( '#display' ).text( `Your score is ${state.sequence.length}` );
     await wait();
+
+    if ( state.sequence.length % 3 === 0 ) {
+      state.delay = Math.floor( state.delay * 0.75 );
+    }
     playRound()
   }
   else {
-    new Audio( './audio/game-over.wav' ).play();
+    await playClipAndWait( './audio/game-over.wav' );
     $( '#display' ).text( `Game over. Your score is ${state.sequence.length - 1}` );
     $( '#start' ).show();
     $( '#navigation' ).show();
@@ -170,41 +225,42 @@ const playRound = async () => {
   }
 };
 
+// Initializes a new game
 const startGame = async () => {
   if ( !state.isPlaying ) {
     state.isPlaying = true;
+    state.delay = options.delay;
+    state.sequence = [];
+
+    ACTIONS.forEach( action => {
+      let item = itemMap[ options.itemType ][ action ];
+      $( `#button${action}` ).empty()
+      $( `#button${action}` ).removeClass( 'violet blue green red' );
+      if ( options.itemType === SOUND_TYPE ) {
+        $( `#button${action}` ).text( item );
+      }
+      else if ( options.itemType === COLOR_TYPE ) {
+        $( `#button${action}` ).addClass( item );
+      }
+      else if ( options.itemType === SHAPE_TYPE) {
+        $( `#button${action}` ).append( createIcon( item ) );
+      }
+      else {
+        throw `Bad type ${options.itemType}`;
+      }
+      $( `#button${action}` ).append( ` (${actionToKey[ action ]})` );
+    } );
     
-    $( '#swatch' ).removeClass();
+    clearSwatch()
     $( '#action-buttons' ).show();
     $( '#start' ).hide();
     $( '#navigation' ).hide();
     $( '#header' ).hide();
 
+    await playClipAndWait( './audio/start.wav' );
     let getReadyText = `Get Ready! The hotkeys are A: ${itemMap[ options.itemType ][ 0 ]}, S: ${itemMap[ options.itemType ][ 1 ]}, D: ${itemMap[ options.itemType ][ 2 ]}, F: ${itemMap[ options.itemType ][ 3 ]}`;
     $( '#display' ).text( getReadyText );
-    new Audio( './audio/start.wav' ).play();
-
     await wait( 4000 );
-    state.isPlaying = true;
-    state.sequence = [];
-
-    ACTIONS.forEach( action => {
-      let item = action;
-      switch ( options.itemType ) {
-        case SOUND_TYPE:
-          item = SOUNDS[ action ];
-          break;
-        case COLOR_TYPE:
-          item = COLORS[ action ];
-          break;
-        case SHAPE_TYPE:
-          item = SHAPES[ action ];
-          break;
-        default:
-          throw "Bad type";
-      }
-      $( `#button${action}` ).text( item );
-    } );
 
     if ( options.itemType === SOUND_TYPE ) {
       await previewSounds();
@@ -217,10 +273,9 @@ const startGame = async () => {
     playRound();
   }
 };
-
 $( '#start' ).click( startGame );
 
-
+// Enables the TAB navigation
 const TABS = [ 'play', 'options', 'help', 'about' ];
 TABS.forEach( tab => {
   $( `#${tab}-nav` ).click( () => {
@@ -233,17 +288,18 @@ TABS.forEach( tab => {
   } );
 } );
 
+// Enables the action button listeners
 const ACTIONS = [ 0, 1, 2, 3 ];
 ACTIONS.forEach( action => {
   $( `#button${action}` ).click( () => {
     if ( state.isListening ) {
-      options.lastPress = Date.now();
+      state.lastPress = Date.now();
       state.playerSequence.push( action );
       if ( options.itemType === SOUND_TYPE ) {
         synth.triggerAttackRelease( itemMap[ SOUND_TYPE ][ action ], .1 );
       }
-      else if ( options.itemType === COLOR_TYPE ) {
-        $( '#display' ).text( $( `#button${action}` ).text() );
+      else if ( options.itemType === COLOR_TYPE || options.itemType === SHAPE_TYPE ) {
+        $( '#display' ).text( itemMap[ options.itemType ][ action ] );
       }
     }
     else {
@@ -252,35 +308,66 @@ ACTIONS.forEach( action => {
   } );
 } );
 
-const HOTKEYS = [ 'a', 's', 'd', 'f' ];
-document.addEventListener("keydown", event => {
-  if ( event.key === 'a' ) {
-    $( '#button0' ).click()
-  }
-  else if ( event.key === 's' ) {
-    $( '#button1' ).click() 
-  }
-  else if ( event.key === 'd' ) {
-    $( '#button2' ).click()
-  }
-  else if ( event.key === 'f' ) {
-    $( '#button3' ).click()
+// Define hotkeys
+document.addEventListener( 'keydown', event => {
+  if ( keyToAction.hasOwnProperty( event.key ) ) {
+    const action = keyToAction[ event.key ];
+    $( `#button${action}` ).click()
   }
 });
 
+// Totally pointless color animation on start button
 let startCounter = 0;
 setInterval( () => {
-  $( '#start' ).removeClass();
+  $( '#start' ).removeClass( 'violet blue green red' );
   $( '#start' ).addClass( COLORS[ startCounter % 4 ] );
   startCounter++;
 }, 2000 );
 
+// Listen for changes in type
 $( '#type-select' ).change( () => {
-  const newType = $( '#type-select' ).val();
-  if ( itemMap.hasOwnProperty( newType ) ) {
-    options.itemType = $( '#type-select' ).val();  
+  if ( !state.isPlaying ) {
+    const newType = $( '#type-select' ).val();
+    if ( itemMap.hasOwnProperty( newType ) ) {
+      options.itemType = $( '#type-select' ).val();  
+    }
+    else {
+      throw `Unsupported game type ${newtype}`;
+    }
   }
-  else {
-    throw "Unsupported game type";
+} );
+
+// Listen for changes in delay
+$( '#speed-select' ).change( () => {
+  if ( !state.isPlaying ) {
+    const newSpeed = $( '#speed-select' ).val();
+    if ( newSpeed === 'slowest' ) {
+      options.delay = 2500
+    }
+    else if ( newSpeed === 'slow' ) {
+      options.delay = 1500
+    }
+    else if ( newSpeed === 'fast' ) {
+      options.delay = 1000
+    }
+    else if ( newSpeed === 'fastest' ) {
+      options.delay = 750
+    }
+    else {
+      throw `Unsupported game speed ${newSpeed}`;
+    }
+  }
+} );
+
+// Listen for changes in level
+$( '#level-select' ).change( () => {
+  if ( !state.isPlaying ) {
+    const newLevel = parseInt( $( '#level-select' ).val() );
+    if ( 1 <= newLevel && newLevel <= 4 ) {
+      options.level = newLevel;
+    }
+    else {
+      throw `Unsupported game level ${newLevel}`;
+    }
   }
 } );
