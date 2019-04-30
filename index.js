@@ -303,6 +303,8 @@ const startGame = async () => {
   }
 };
 $( '#start' ).click( startGame );
+
+// Needed to enable forms mode???
 $( '#start' ).click( () => $( '#button0' ).focus() );
 
 // Enables the TAB navigation
