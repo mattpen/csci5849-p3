@@ -29,11 +29,32 @@ const COLORS = [
   'green'
 ];
 
-const SOUNDS = [
+const MAJ = [
   'G3',
   'C4',
   'E4',
   'G4'
+];
+
+const MIN = [
+  'G3',
+  'C4',
+  'Eb4',
+  'G4'
+];
+
+const DOM = [
+  'C4',
+  'E4',
+  'G4',
+  'Bb4'
+];
+
+const DIM = [
+  'C4',
+  'Eb4',
+  'Gb4',
+  'A4'
 ];
 
 const SHAPES = [
@@ -44,7 +65,7 @@ const SHAPES = [
 ]
 
 const itemMap = {
-  SOUND: SOUNDS,
+  SOUND: MAJ,
   COLOR: COLORS,
   SHAPE: SHAPES
 }
@@ -65,9 +86,9 @@ const keyToAction = {
 
 // Game options
 const options = {
-  level: 1, // number of concurrent items
+  // level: 1, // number of concurrent items
   itemType: SOUND_TYPE, // type of game
-  delay: 2000 // delay between items in playback
+  delay: 1000 // delay between items in playback
 }
 
 // Game state
@@ -162,7 +183,7 @@ const previewSounds = () => {
     let c = 0;
     setInterval( () => {
       if ( c < 4 ) {
-        synth.triggerAttackRelease( SOUNDS[ c ], .3 );
+        synth.triggerAttackRelease( itemMap[ SOUND_TYPE ][ c ], .3 );
         c++;
       }
       else {
@@ -187,7 +208,6 @@ const listenForItems = () => {
         const thisSequence = state.playerSequence.map( action => itemMap[ options.itemType ][ action ] );
         if ( JSON.stringify( thisSequence ) !== JSON.stringify( state.sequence ) ) {
           state.isPlaying = false;
-          console.log( state.sequence, thisSequence, state.playerSequence );
         }
         resolve();
       }
@@ -309,10 +329,18 @@ ACTIONS.forEach( action => {
 } );
 
 // Define hotkeys
-document.addEventListener( 'keydown', event => {
+$( document ).on( 'keydown', event => {
   if ( keyToAction.hasOwnProperty( event.key ) ) {
     const action = keyToAction[ event.key ];
-    $( `#button${action}` ).click()
+    $( `#button${action}` ).click();
+    $( `#button${action}` ).addClass( 'active' );
+  }
+});
+
+$( document ).on( 'keyup', event => {
+  if ( keyToAction.hasOwnProperty( event.key ) ) {
+    const action = keyToAction[ event.key ];
+    $( `#button${action}` ).removeClass( 'active' );
   }
 });
 
@@ -359,15 +387,37 @@ $( '#speed-select' ).change( () => {
   }
 } );
 
-// Listen for changes in level
-$( '#level-select' ).change( () => {
+// // Listen for changes in level
+// $( '#level-select' ).change( () => {
+//   if ( !state.isPlaying ) {
+//     const newLevel = parseInt( $( '#level-select' ).val() );
+//     if ( 1 <= newLevel && newLevel <= 4 ) {
+//       options.level = newLevel;
+//     }
+//     else {
+//       throw `Unsupported game level ${newLevel}`;
+//     }
+//   }
+// } );
+
+// Listen for changes in delay
+$( '#chord-select' ).change( () => {
   if ( !state.isPlaying ) {
-    const newLevel = parseInt( $( '#level-select' ).val() );
-    if ( 1 <= newLevel && newLevel <= 4 ) {
-      options.level = newLevel;
+    const newChord = $( '#chord-select' ).val();
+    if ( newChord === 'maj' ) {
+      itemMap[ SOUND_TYPE ] = MAJ;
+    }
+    else if ( newChord === 'min' ) {
+      itemMap[ SOUND_TYPE ] = MIN;
+    }
+    else if ( newChord === 'dom' ) {
+      itemMap[ SOUND_TYPE ] = DOM;
+    }
+    else if ( newChord === 'dim' ) {
+      itemMap[ SOUND_TYPE ] = DIM;
     }
     else {
-      throw `Unsupported game level ${newLevel}`;
+      throw `Unsupported game chord ${newChord}`;
     }
   }
 } );

@@ -39,9 +39,13 @@ button:hover {
   cursor: pointer;
 }
 
-button:active {
+.action-button button:active,
+.action-button button.active,
+button:active,
+button.active {
   box-shadow: 5px 5px;
   border-style: hidden;
+  transition: box-shadow .1s ease;
 }
 
 .nav-button {
@@ -215,6 +219,8 @@ button:active {
   height: 100px;
   width: 100px;
   margin: auto;
+  font-size: 90px;
+  border-radius: var(--border-radius);
   display: none;
 }
 
@@ -230,7 +236,7 @@ button:active {
 
 #start {
   display: block;
-  margin: 10px auto;
+  margin: 25px auto;
   width: 60vw;
   height: 50vw;
   max-height: 50vh;
@@ -240,6 +246,9 @@ button:active {
 }
 
 #display {
+  color: var(--violet);
+  background: var(--darkgrey);
+  padding: 10px;
   font-size: 24px;
   text-align: center;
 }
