@@ -73,18 +73,30 @@ button.active {
   }
 }
 
+@media (orientation: landscape), (min-width: 501px) {
+ .action-button {
+    width: 25%;
+  }
+}
+
+@media (orientation: portrait), (max-width: 500px) {
+ .action-button {
+    width: 50%;
+  }
+
+  .action-button button {
+    height: 150px;
+  }
+}
 
 .action-button {
-  width: 50%;
   display: inline-block;
   padding: 15px 5px;
   margin: -7px;
 }
 
 .action-button button {
-  height: 40vw;
-  max-height: 30vh;
-  width: 40vw;
+  width: 90%;
   border: 5px solid var(--darkgrey);
   margin: 10px auto;
   padding: 10px;
@@ -109,7 +121,20 @@ button.active {
   padding: 10px;
   background: white;
   color: var(--darkgrey);
-  height: calc( 100vh - 167px );
+  height: calc( 100vh - 144px );
+  max-width: 640px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#main.full-screen {
+    height: 100vh;
+}
+
+#play {
+  width: 100%;
 }
 
 #help, #about {
@@ -142,30 +167,6 @@ button.active {
   transition: var(--action-transition);
 }
 
-.supports-hover.violet:hover {
-  color: var(--violet);
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
-
-.supports-hover.red:hover {
-  color: var(--red);
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
-
-.supports-hover.green:hover {
-  color: var(--green);
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
-
-.supports-hover.blue:hover {
-  color: var(--blue);
-  background: var(--darkgrey);
-  transition: var(--action-transition);
-}
-
 
 .violet-reverse {
   color: var(--violet);
@@ -186,6 +187,30 @@ button.active {
 }
 
 .blue-reverse {
+  color: var(--blue);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.violet:hover {
+  color: var(--violet);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.red:hover {
+  color: var(--red);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.green:hover {
+  color: var(--green);
+  background: var(--darkgrey);
+  transition: var(--action-transition);
+}
+
+.supports-hover.blue:hover {
   color: var(--blue);
   background: var(--darkgrey);
   transition: var(--action-transition);
@@ -218,7 +243,7 @@ button.active {
 #swatch {
   height: 100px;
   width: 100px;
-  margin: auto;
+  margin: 20px auto;
   font-size: 90px;
   border-radius: var(--border-radius);
   display: none;
@@ -237,8 +262,7 @@ button.active {
 #start {
   display: block;
   margin: 25px auto;
-  width: 60vw;
-  height: 50vw;
+  width: 60%;
   max-height: 50vh;
   font-size: 40pt;
   border: 1px solid var(--darkgrey);

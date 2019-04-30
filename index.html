@@ -22,18 +22,23 @@
     </div>
 
     <div id="main" role="main" aria-live="off">
-      <div id="play" class="content">
+      <div id="play" class="content" role="application">
         <button id="start" class="red supports-hover">Start!</button>
         
-        <div id="display" role="alert" aria-live="assertive"></div>
-        <div id="swatch"></div>
-
-        <div id="action-buttons">
-          <div class="action-button"><button id="button0" accesskey="a" class="supports-hover">0</button></div>
-          <div class="action-button"><button id="button1" accesskey="s" class="supports-hover">1</button></div>
-          <div class="action-button"><button id="button2" accesskey="d" class="supports-hover">2</button></div>
-          <div class="action-button"><button id="button3" accesskey="f" class="supports-hover">3</button> </div>
+        <form>
+        <div id="display">
+          <div id="display-text" role="alert" aria-live="assertive"></div>
+          <div id="swatch"></div>
         </div>
+        
+        
+          <div id="action-buttons">
+            <div class="action-button"><button id="button0" accesskey="a" class="supports-hover">0</button></div>
+            <div class="action-button"><button id="button1" accesskey="s" class="supports-hover">1</button></div>
+            <div class="action-button"><button id="button2" accesskey="d" class="supports-hover">2</button></div>
+            <div class="action-button"><button id="button3" accesskey="f" class="supports-hover">3</button> </div>
+          </div>
+        </form>
       </div>
       
       <div id="options" class="content">
@@ -82,7 +87,7 @@
         <p>The premise of this game is to repeat the sequence presented by the computer.  The sequence starts with just one item and increases in both length and speed incrementally.  The sequence must be repeated at least as fast as the computer presents it.  The sequence can be repeated using the buttons in the play area or by using the <span class="key">a</span>, <span class="key">s</span>, <span class="key">d</span>, and <span class="key">f</span> keys.</p>
 
         <h3>Notes for Screen Readers</h3>
-        <p>This game was designed and tested for use with NVDA on Windows 10.  Compatibility with other systems has not been tested.  It is recommended to use the NVDA in "Browse Mode" (<span class="key">Insert</span> + <span class="key">Space</span>) or the hotkeys will not work. It is also recommended to set the Windows Speech Settings voice rate to 70% or higher.</p>
+        <p>This game was designed and tested for use with NVDA on Windows 10.  Compatibility with other systems has not been tested.  It is recommended to use the NVDA in "Forms Mode" (<span class="key">Insert</span> + <span class="key">Space</span>) or the hotkeys will not work. It is also recommended to set the Windows Speech Settings voice rate to 70% or higher.</p>
 
         <h3>Special Instructions for playing with Tones</h3>
         <p>If playing using tones as the sequence item, the lowest tone is triggered by <span class="key">a</span>, followed by <span class="key">s</span> and <span class="key">d</span> and then <span class="key">f</span> triggers the highest tone. At the start of the game, all 4 tones are played in sequence from lowest to highest.  This version of the game is best for people who have some degree of musical ear training or who wish to learn how to recognize melodies by ear.</p>

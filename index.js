@@ -130,16 +130,16 @@ const playNext = ( subSequence, resolve ) => {
     const round = state.sequence.length - subSequence.length;
 
     if ( options.itemType === SOUND_TYPE ) {
-      $( '#display' ).text( `${round}` );
+      $( '#display-text' ).text( `${round}` );
       synth.triggerAttackRelease( item, state.delay * .8 / 1000 );
     }
     else if ( options.itemType === COLOR_TYPE ) {
-      $( '#display' ).text( `${round}. ${item}` );
+      $( '#display-text' ).text( `${round}. ${item}` );
       clearSwatch()
       $( '#swatch' ).addClass( item );
     }
     else if ( options.itemType === SHAPE_TYPE ) {
-      $( '#display' ).text( `${round}. ${item}` );
+      $( '#display-text' ).text( `${round}. ${item}` );
       clearSwatch();
       $( '#swatch' ).append( createIcon( item ) );
     }
@@ -150,7 +150,7 @@ const playNext = ( subSequence, resolve ) => {
     setTimeout( () => playNext( subSequence, resolve ), state.delay );
   }
   else {
-    $( '#display' ).text( 'Your Turn!' );
+    $( '#display-text' ).text( 'Your Turn!' );
     clearSwatch()
     resolve();
   }
@@ -219,15 +219,15 @@ const listenForItems = () => {
 const playRound = async () => {
   addItemToSequence();
 
-  $( '#display' ).text( `Round ${state.sequence.length}` );
+  $( '#display-text' ).text( `Round ${state.sequence.length}` );
   await wait();
   await playItems();
   await listenForItems();
 
-  $( '#display' ).focus();
+  $( '#display-text' ).focus();
 
   if ( state.isPlaying ) {
-    $( '#display' ).text( `Your score is ${state.sequence.length}` );
+    $( '#display-text' ).text( `Your score is ${state.sequence.length}` );
     await wait();
 
     if ( state.sequence.length % 3 === 0 ) {
@@ -241,12 +241,13 @@ const playRound = async () => {
     if ( score > options.highScore ) {
       options.highScore = score;
     }
-    $( '#display' ).text( `Game over. Your score is ${score}.  The high score is ${options.highScore}.` );
+    $( '#display-text' ).text( `Game over. Your score is ${score}.  The high score is ${options.highScore}.` );
 
     $( '#start' ).show();
     $( '#navigation' ).show();
     $( '#header' ).show();
     $( '#action-buttons' ).hide();
+    $( '#main' ).removeClass( 'full-screen' );
   }
 };
 
@@ -281,10 +282,11 @@ const startGame = async () => {
     $( '#start' ).hide();
     $( '#navigation' ).hide();
     $( '#header' ).hide();
+    $( '#main' ).addClass( 'full-screen' );
 
     await playClipAndWait( './audio/start.wav' );
     let getReadyText = `Get Ready! The hotkeys are A: ${itemMap[ options.itemType ][ 0 ]}, S: ${itemMap[ options.itemType ][ 1 ]}, D: ${itemMap[ options.itemType ][ 2 ]}, F: ${itemMap[ options.itemType ][ 3 ]}`;
-    $( '#display' ).text( getReadyText );
+    $( '#display-text' ).text( getReadyText );
     await wait( 4000 );
 
     if ( options.itemType === SOUND_TYPE ) {
@@ -324,7 +326,7 @@ ACTIONS.forEach( action => {
         synth.triggerAttackRelease( itemMap[ SOUND_TYPE ][ action ], .1 );
       }
       else if ( options.itemType === COLOR_TYPE || options.itemType === SHAPE_TYPE ) {
-        $( '#display' ).text( itemMap[ options.itemType ][ action ] );
+        $( '#display-text' ).text( itemMap[ options.itemType ][ action ] );
       }
     }
     else {
