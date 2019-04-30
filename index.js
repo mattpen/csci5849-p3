@@ -87,6 +87,7 @@ const keyToAction = {
 // Game options
 const options = {
   // level: 1, // number of concurrent items
+  highScore: 0, // highest score since page load
   itemType: SOUND_TYPE, // type of game
   delay: 1000 // delay between items in playback
 }
@@ -97,7 +98,6 @@ const state = {
   playerSequence: [], // The players input sequence
   isPlaying: false, // true if the game is in progress
   isListening: false, // true if it is the player's turn
-  highScore: 0, // highest score since page load
   lastPress: Date.now(), // The timestamp of the last time a button was pressed while isListening was equal to true
   delay: options.delay // Time to wait between items for each round
 }
@@ -237,7 +237,12 @@ const playRound = async () => {
   }
   else {
     await playClipAndWait( './audio/game-over.wav' );
-    $( '#display' ).text( `Game over. Your score is ${state.sequence.length - 1}` );
+    const score = state.sequence.length - 1;
+    if ( score > options.highScore ) {
+      options.highScore = score;
+    }
+    $( '#display' ).text( `Game over. Your score is ${score}.  The high score is ${options.highScore}.` );
+
     $( '#start' ).show();
     $( '#navigation' ).show();
     $( '#header' ).show();
