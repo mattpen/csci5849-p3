@@ -183,13 +183,14 @@ const previewSounds = () => {
     let c = 0;
     setInterval( () => {
       if ( c < 4 ) {
-        synth.triggerAttackRelease( itemMap[ SOUND_TYPE ][ c ], .3 );
+        $( '#display-text' ).text( `Hotkey: ${actionToKey[ c ]}` );
+        synth.triggerAttackRelease( itemMap[ SOUND_TYPE ][ c ], .6 );
         c++;
       }
       else {
         resolve();
       }
-    }, 350 );
+    }, 650 );
   } );
 }
 
@@ -292,7 +293,10 @@ const startGame = async () => {
     await wait( 4000 );
 
     if ( options.itemType === SOUND_TYPE ) {
+      $( '#display-text' ).text( 'These are the tones you will hear.' );
+      await wait( 1500 );
       await previewSounds();
+      await wait( 1000 )
       $( '#swatch' ).hide();
     }
     else {
